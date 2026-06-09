@@ -1,0 +1,17 @@
+{
+  "miniprogramRoot": "dist/",
+  "projectname": "gt7-miniapp",
+  "description": "GT7 调车助手",
+  "appid": "touristappid",
+  "setting": {
+    "urlCheck": false,
+    "es6": false,
+    "enhance": false,
+    "compileHotReLoad": false,
+    "postcss": false,
+    "minified": false,
+    "bundle": false
+  },
+  "compileType": "miniprogram",
+  "condition": {}
+}
