@@ -5,8 +5,8 @@ import './track-detail.scss'
 
 export default function TrackDetail() {
   const router = useRouter()
-  const slug = router.params.slug
-  const track = tracks.find(t => t.slug === slug)
+  const id = router.params.id
+  const track = tracks.find(t => t.id === id)
 
   if (!track) {
     return (
@@ -19,9 +19,9 @@ export default function TrackDetail() {
   return (
     <View className='track-detail-page'>
       <View className='detail-header'>
-        <Text className='detail-zh'>{track.trackNameZh}</Text>
-        <Text className='detail-en'>{track.trackName}</Text>
-        <Text className='detail-loc'>{track.location}</Text>
+        <Text className='detail-zh'>{track.nameZh}</Text>
+        <Text className='detail-en'>{track.nameEn}</Text>
+        <Text className='detail-loc'>{track.regionZh}</Text>
       </View>
 
       <View className='stats-row'>

@@ -1,3 +1,3 @@
 export default definePageConfig({
-  navigationBarTitleText: '调车建议'
+  navigationBarTitleText: '调校结果'
 })

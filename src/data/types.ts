@@ -1,18 +1,40 @@
-/** 赛道基本信息 */
+/* ==============================
+   车辆相关
+   ============================== */
+
+export interface Car {
+  id: string
+  nameEn: string
+  nameZh: string
+  brandEn: string
+  brandZh: string
+  category: string       // Gr.3 / 中国车 / N400 等
+  drivetrain: string     // FR / MR / AWD / FF
+  tags: string[]
+  ppBase: number
+}
+
+/* ==============================
+   赛道相关
+   ============================== */
+
 export interface Track {
+  id: string
   slug: string
-  trackName: string
-  trackNameZh: string
-  location: string
+  nameEn: string
+  nameZh: string
+  regionEn: string
+  regionZh: string
   lengthKm: string
   cornerCount: string
   referenceLap: string
   difficulty: '入门' | '进阶' | '高级'
-  features: string[]        // 赛道特点，如「高速弯多」「刹车区重」
-  practiceFocus: string[]   // 练习重点
+  tags: string[]
+  layouts: string[]
+  features: string[]
+  practiceFocus: string[]
 }
 
-/** 弯角数据 */
 export interface Corner {
   id: string
   name: string
@@ -29,16 +51,173 @@ export interface Corner {
   mistakeZh: string
 }
 
-/** 车辆级别 */
-export type CarClass = 'N200' | 'N400' | 'N600' | 'N800' | 'Gr.4' | 'Gr.3' | 'Gr.2' | 'Gr.1'
+/* ==============================
+   轮胎相关
+   ============================== */
 
-/** 驱动形式 */
-export type Drivetrain = 'FF' | 'FR' | 'MR' | 'AWD'
+export interface Tire {
+  id: string
+  name: string
+  shortName: string
+  color: string
+  colorName: string
+  surface: 'dry' | 'wet'
+  grip: string
+  wear: string
+  description: string
+}
 
-/** 天气 */
-export type Weather = '晴天' | '雨天'
+/* ==============================
+   天气相关
+   ============================== */
 
-/** 车辆问题 */
+export interface WeatherOption {
+  id: string
+  name: string
+  code: string
+  description: string
+  aeroDelta: number
+  brakeBiasDelta: number
+  stabilityNote: string
+}
+
+export interface WeatherRules {
+  options: WeatherOption[]
+  tireWarnings: Record<string, Record<string, string>>
+}
+
+/* ==============================
+   调校规则相关
+   ============================== */
+
+export interface SuspensionSetup {
+  rideHeightFront: number
+  rideHeightRear: number
+  antiRollFront: number
+  antiRollRear: number
+  compressionFront: number
+  compressionRear: number
+  reboundFront: number
+  reboundRear: number
+  frequencyFront: number
+  frequencyRear: number
+  camberFront: number
+  camberRear: number
+  toeFront: number
+  toeRear: number
+}
+
+export interface LSDSetup {
+  initial: number
+  accel: number
+  brake: number
+}
+
+export interface AeroSetup {
+  front: number
+  rear: number
+}
+
+export interface PowerSetup {
+  ecu: number
+  limiter: number
+}
+
+export interface BallastSetup {
+  weight: number
+  position: number
+}
+
+export interface TransmissionSetup {
+  topSpeed: number
+  finalDriveNote: string
+}
+
+export interface BaseSetup {
+  objective: string
+  suspension: SuspensionSetup
+  lsd: LSDSetup
+  aero: AeroSetup
+  power: PowerSetup
+  ballast: BallastSetup
+  transmission: TransmissionSetup
+  brakeBias: number
+}
+
+export interface Modifier {
+  rideHeightFront?: number
+  rideHeightRear?: number
+  antiRollFront?: number
+  antiRollRear?: number
+  compressionFront?: number
+  compressionRear?: number
+  camberFront?: number
+  camberRear?: number
+  toeFront?: number
+  toeRear?: number
+  lsdAccel?: number
+  lsdBrake?: number
+  aeroFront?: number
+  aeroRear?: number
+  powerEcu?: number
+  powerLimiter?: number
+  ballastWeight?: number
+  ballastPosition?: number
+  topSpeed?: number
+  brakeBias?: number
+  note?: string
+}
+
+export interface TireModifier {
+  frequency: number
+  aeroFront?: number
+  aeroRear?: number
+  brakeBias: number
+  note: string
+}
+
+export interface PPBand {
+  max: number
+  ecuDelta: number
+  limiterDelta: number
+  ballastDelta: number
+  label: string
+}
+
+/* ==============================
+   调校结果
+   ============================== */
+
+export interface SetupSection {
+  id: string
+  title: string
+  rows: { label: string; value: string }[]
+}
+
+export interface SetupResult {
+  source: string
+  basicInfo: {
+    car: string
+    carSub: string
+    track: string
+    trackSub: string
+    targetPp: string
+    weather: string
+    tire: string
+    tireColor: string
+    tireShortName: string
+  }
+  objective: string
+  sections: SetupSection[]
+  weatherCorrection: string[]
+  explanation: string[]
+  risks: string[]
+}
+
+/* ==============================
+   问题驱动调车（保留）
+   ============================== */
+
 export type CarProblem =
   | '转向不足'
   | '转向过度'
@@ -48,34 +227,26 @@ export type CarProblem =
   | '车身不稳定'
   | '轮胎磨损快'
 
-/** 调车请求 */
-export interface TuningRequest {
-  carClass: CarClass
-  drivetrain: Drivetrain
-  trackSlug: string
-  weather: Weather
-  problem: CarProblem
-}
-
-/** 单条调车建议 */
 export interface TuningAdvice {
-  parameter: string      // 调整参数名，如「前防倾杆」
-  direction: string      // 调整方向，如「调硬 2 格」
-  reason: string         // 为什么这样调
+  parameter: string
+  direction: string
+  reason: string
 }
 
-/** 调车结果 */
-export interface TuningResult {
-  title: string           // 方案标题
-  advice: TuningAdvice[]  // 调车建议列表
-  drivingTips: string[]   // 驾驶建议
+export interface ProblemTuningResult {
+  title: string
+  advice: TuningAdvice[]
+  drivingTips: string[]
 }
 
-/** 收藏记录 */
-export interface FavoriteRecord {
+/* ==============================
+   收藏记录
+   ============================== */
+
+export interface GarageRecord {
   id: string
-  createdAt: number       // 时间戳
-  request: TuningRequest
-  result: TuningResult
-  trackNameZh: string
+  title: string
+  subtitle: string
+  createdAt: string
+  setup: SetupResult
 }

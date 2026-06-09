@@ -17,14 +17,14 @@ export default function Tracks() {
     if (!filter) return true
     const q = filter.toLowerCase()
     return (
-      t.trackNameZh.includes(q) ||
-      t.trackName.toLowerCase().includes(q) ||
-      t.location.toLowerCase().includes(q)
+      t.nameZh.includes(q) ||
+      t.nameEn.toLowerCase().includes(q) ||
+      t.regionZh.includes(q)
     )
   })
 
-  const handleTap = (slug: string) => {
-    Taro.navigateTo({ url: `/pages/track-detail/track-detail?slug=${slug}` })
+  const handleTap = (id: string) => {
+    Taro.navigateTo({ url: `/pages/track-detail/track-detail?id=${id}` })
   }
 
   return (
@@ -32,7 +32,7 @@ export default function Tracks() {
       <View className='search-bar'>
         <Input
           className='search-input'
-          placeholder='搜索赛道名 / 地点'
+          placeholder='搜索赛道名 / 地区'
           value={filter}
           onInput={e => setFilter(e.detail.value)}
         />
@@ -45,12 +45,12 @@ export default function Tracks() {
       <View className='track-list'>
         {filtered.map(track => (
           <View
-            key={track.slug}
+            key={track.id}
             className='track-card'
-            onClick={() => handleTap(track.slug)}
+            onClick={() => handleTap(track.id)}
           >
             <View className='track-card-head'>
-              <Text className='track-zh'>{track.trackNameZh}</Text>
+              <Text className='track-zh'>{track.nameZh}</Text>
               <View
                 className='difficulty-badge'
                 style={{ backgroundColor: difficultyColor[track.difficulty] || '#888' }}
@@ -58,8 +58,8 @@ export default function Tracks() {
                 <Text className='difficulty-text'>{track.difficulty}</Text>
               </View>
             </View>
-            <Text className='track-en'>{track.trackName}</Text>
-            <Text className='track-loc'>{track.location}</Text>
+            <Text className='track-en'>{track.nameEn}</Text>
+            <Text className='track-loc'>{track.regionZh}</Text>
             <View className='track-stats'>
               <Text className='stat'>📐 {track.lengthKm}</Text>
               <Text className='stat'>🔄 {track.cornerCount}</Text>
