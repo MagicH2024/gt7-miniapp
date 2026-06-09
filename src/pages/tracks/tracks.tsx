@@ -1,10 +1,78 @@
-import { View, Text } from '@tarojs/components'
+import { View, Text, Input } from '@tarojs/components'
+import Taro from '@tarojs/taro'
+import { useState } from 'react'
+import { tracks } from '../../data/tracks'
 import './tracks.scss'
 
+const difficultyColor: Record<string, string> = {
+  '入门': '#4caf50',
+  '进阶': '#ff9800',
+  '高级': '#f44336'
+}
+
 export default function Tracks() {
+  const [filter, setFilter] = useState('')
+
+  const filtered = tracks.filter(t => {
+    if (!filter) return true
+    const q = filter.toLowerCase()
+    return (
+      t.trackNameZh.includes(q) ||
+      t.trackName.toLowerCase().includes(q) ||
+      t.location.toLowerCase().includes(q)
+    )
+  })
+
+  const handleTap = (slug: string) => {
+    Taro.navigateTo({ url: `/pages/track-detail/track-detail?slug=${slug}` })
+  }
+
   return (
     <View className='tracks-page'>
-      <Text>赛道训练 - 开发中</Text>
+      <View className='search-bar'>
+        <Input
+          className='search-input'
+          placeholder='搜索赛道名 / 地点'
+          value={filter}
+          onInput={e => setFilter(e.detail.value)}
+        />
+      </View>
+
+      <View className='track-count'>
+        <Text className='count-text'>共 {filtered.length} 条赛道</Text>
+      </View>
+
+      <View className='track-list'>
+        {filtered.map(track => (
+          <View
+            key={track.slug}
+            className='track-card'
+            onClick={() => handleTap(track.slug)}
+          >
+            <View className='track-card-head'>
+              <Text className='track-zh'>{track.trackNameZh}</Text>
+              <View
+                className='difficulty-badge'
+                style={{ backgroundColor: difficultyColor[track.difficulty] || '#888' }}
+              >
+                <Text className='difficulty-text'>{track.difficulty}</Text>
+              </View>
+            </View>
+            <Text className='track-en'>{track.trackName}</Text>
+            <Text className='track-loc'>{track.location}</Text>
+            <View className='track-stats'>
+              <Text className='stat'>📐 {track.lengthKm}</Text>
+              <Text className='stat'>🔄 {track.cornerCount}</Text>
+              <Text className='stat'>⏱️ {track.referenceLap}</Text>
+            </View>
+            <View className='feature-tags'>
+              {track.features.slice(0, 3).map((f, i) => (
+                <Text key={i} className='feature-tag'>{f}</Text>
+              ))}
+            </View>
+          </View>
+        ))}
+      </View>
     </View>
   )
 }

@@ -1,4 +1,134 @@
 .track-detail-page {
   padding: 32rpx;
   min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.not-found {
+  text-align: center;
+  padding: 100rpx 0;
+  color: var(--color-text-muted);
+  font-size: 30rpx;
+}
+
+.detail-header {
+  text-align: center;
+  padding: 32rpx 0 40rpx;
+}
+
+.detail-zh {
+  display: block;
+  font-size: 48rpx;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8rpx;
+}
+
+.detail-en {
+  display: block;
+  font-size: 28rpx;
+  color: var(--color-text-muted);
+  margin-bottom: 8rpx;
+}
+
+.detail-loc {
+  display: block;
+  font-size: 24rpx;
+  color: var(--color-text-muted);
+}
+
+.stats-row {
+  display: flex;
+  gap: 16rpx;
+  margin-bottom: 40rpx;
+}
+
+.stat-box {
+  flex: 1;
+  background: var(--color-surface);
+  border: 1rpx solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 20rpx 12rpx;
+  text-align: center;
+}
+
+.stat-label {
+  display: block;
+  font-size: 20rpx;
+  color: var(--color-text-muted);
+  margin-bottom: 8rpx;
+}
+
+.stat-value {
+  display: block;
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #fff;
+}
+
+.section {
+  margin-bottom: 40rpx;
+}
+
+.section-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 20rpx;
+}
+
+.tag-list {
+  display: flex;
+  gap: 12rpx;
+  flex-wrap: wrap;
+}
+
+.tag-item {
+  font-size: 24rpx;
+  color: var(--color-primary);
+  background: rgba(255, 107, 53, 0.1);
+  padding: 8rpx 20rpx;
+  border-radius: 16rpx;
+}
+
+.focus-item {
+  display: flex;
+  gap: 16rpx;
+  align-items: flex-start;
+  margin-bottom: 16rpx;
+}
+
+.focus-num {
+  flex-shrink: 0;
+  width: 40rpx;
+  height: 40rpx;
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22rpx;
+  font-weight: 600;
+}
+
+.focus-text {
+  font-size: 26rpx;
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.tip-card {
+  background: var(--color-surface);
+  border: 1rpx solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 24rpx;
+}
+
+.tip-line {
+  display: block;
+  font-size: 24rpx;
+  color: var(--color-text);
+  line-height: 2;
 }
