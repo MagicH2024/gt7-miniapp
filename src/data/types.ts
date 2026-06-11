@@ -250,3 +250,46 @@ export interface GarageRecord {
   createdAt: string
   setup: SetupResult
 }
+
+/* ==============================
+   新手练车
+   ============================== */
+
+export interface PracticeLesson {
+  id: string
+  title: string
+  level: '基础' | '进阶' | '高级'
+  icon: string
+  summary: string
+  keyPoints: string[]
+  drill: string
+  tips: string[]
+  recommendedTrack: string   // 推荐练习赛道 id
+}
+
+export interface PracticeStep {
+  order: number
+  title: string
+  description: string
+  laps: number
+}
+
+export interface PracticePlan {
+  id: string
+  trackId: string
+  title: string
+  level: '入门' | '进阶'
+  description: string
+  steps: PracticeStep[]
+  targetLapTime: string
+}
+
+export interface PracticeRecord {
+  id: string
+  trackId: string
+  trackNameZh: string
+  laps: number
+  bestLap: string
+  notes: string
+  createdAt: number
+}
